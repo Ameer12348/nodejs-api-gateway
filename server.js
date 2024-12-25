@@ -4,13 +4,14 @@ const { setupProxies } = require("./configs/proxy");
 const { ROUTES } = require("./configs/ROUTES");
 const { setupAuth } = require("./configs/auth");
 const { setupRateLimit } = require("./configs/ratelimit");
-require("dotenv").config();
 const router = require("./routes");
 const errorHandler = require("./middleware/errorHandler");
+const envVars = require("./configs/envVars");
+require("dotenv").config();
 
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = envVars.port;
 app.use(express.json());
 app.use(router);
 app.use(errorHandler);

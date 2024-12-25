@@ -2,7 +2,6 @@ const ROUTES = [
   {
     url: "/free",
     auth: false,
-    creditCheck: false,
     rateLimit: {
       windowMs: 15 * 60 * 1000,
       max: 5,
@@ -18,7 +17,6 @@ const ROUTES = [
   {
     url: "/premium",
     auth: true,
-    creditCheck: true,
     proxy: {
       target: "https://www.google.com",
       changeOrigin: true,
