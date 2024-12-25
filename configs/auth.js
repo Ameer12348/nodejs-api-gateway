@@ -1,24 +1,9 @@
-const Keycloak = require("keycloak-connect");
-const session = require("express-session");
+const { verifyToken } = require("../middleware/auth.middleware");
 
 const setupAuth = (app, routes) => {
-  var memoryStore = new session.MemoryStore();
-  var keycloak = new Keycloak({ store: memoryStore });
-
-  app.use(
-    session({
-      secret: "<RANDOM GENERATED TOKEN>",
-      resave: false,
-      saveUninitialized: true,
-      store: memoryStore,
-    })
-  );
-
-  app.use(keycloak.middleware());
-
   routes.forEach((r) => {
     if (r.auth) {
-      app.use(r.url, keycloak.protect(), function (req, res, next) {
+      app.use(r.url, verifyToken, function (req, res, next) {
         next();
       });
     }

@@ -1,13 +1,19 @@
 const express = require("express");
 const { setupLogging } = require("./configs/morgan");
 const { setupProxies } = require("./configs/proxy");
-const { ROUTES } = require("./routes");
+const { ROUTES } = require("./configs/ROUTES");
 const { setupAuth } = require("./configs/auth");
 const { setupRateLimit } = require("./configs/ratelimit");
+require("dotenv").config();
+const router = require("./routes");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
-const port = 3000;
 
+const port = process.env.PORT || 3000;
+app.use(express.json());
+app.use(router);
+app.use(errorHandler);
 setupLogging(app);
 setupRateLimit(app, ROUTES);
 setupAuth(app, ROUTES);
