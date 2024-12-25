@@ -1,34 +1,30 @@
+const limitGenerator = require("../../helpers/limitGenerator");
+
 const authGatewayRoutes = [
   {
     url: "/api/register",
     auth: false,
-    rateLimit: {
-      windowMs: 15 * 60 * 1000,
-      max: 5,
-    },
+    rateLimit: limitGenerator(15, 5),
   },
   {
     url: "/api/login",
     auth: false,
-    rateLimit: {
-      windowMs: 15 * 60 * 1000,
-      max: 5,
-    },
+    rateLimit: limitGenerator(15, 5),
   },
   {
-    url: "/api/login",
+    url: "/api/logout",
     auth: false,
-    rateLimit: {
-      windowMs: 15 * 60 * 1000,
-      max: 5,
-    },
+    rateLimit: limitGenerator(15, 5),
   },
   {
-    url: "/api/login",
+    url: "/api/reset-password",
     auth: false,
-    rateLimit: {
-      windowMs: 15 * 60 * 1000,
-      max: 5,
-    },
+    rateLimit: limitGenerator(15, 5),
+  },
+  {
+    url: "/api/on-auth-state-change",
+    auth: false,
   },
 ];
+
+module.exports = authGatewayRoutes;

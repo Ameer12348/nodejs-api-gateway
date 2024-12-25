@@ -1,39 +1,11 @@
-const gatewayRoutes = [
-  {
-    url: "/api/login",
-    auth: false,
-    rateLimit: {
-      windowMs: 15 * 60 * 1000,
-      max: 5,
-    },
-  },
+const authGatewayRoutes = require("./authGatewayRoutes");
 
-  // {
-  //   url: "/free",
-  //   auth: false,
-  //   rateLimit: {
-  //     windowMs: 15 * 60 * 1000,
-  //     max: 5,
-  //   },
-  //   proxy: {
-  //     target: "https://www.google.com",
-  //     changeOrigin: true,
-  //     pathRewrite: {
-  //       [`^/free`]: "",
-  //     },
-  //   },
-  // },
-  // {
-  //   url: "/premium",
-  //   auth: true,
-  //   proxy: {
-  //     target: "https://www.google.com",
-  //     changeOrigin: true,
-  //     pathRewrite: {
-  //       [`^/premium`]: "",
-  //     },
-  //   },
-  // },
+const gatewayRoutes = [
+  ...authGatewayRoutes,
+  {
+    url: "/books",
+    auth: true,
+  },
 ];
 
 module.exports = gatewayRoutes;

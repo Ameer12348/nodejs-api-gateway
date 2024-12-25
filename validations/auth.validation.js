@@ -20,6 +20,11 @@ const resetPassword = {
     email: Joi.string().email().required(),
   }),
 };
+const tokenValidation = {
+  headers: Joi.object().keys({
+    authorization: Joi.string().required(),
+  }),
+};
 
 module.exports = {
   register,
