@@ -10,10 +10,13 @@ const errorHandler = require("./middleware/errorHandler");
 const envVars = require("./configs/envVars");
 const gatewayRoutes = require("./gatewayRoutes");
 const swaggerSpec = require("./docs/swagger");
+const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
 const app = express();
+app.use(express.json());
+app.use(cookieParser());
 
 const port = envVars.port;
 
@@ -26,7 +29,6 @@ setupAuth(app, gatewayRoutes); // Apply authentication logic
 setupProxies(app, gatewayRoutes); // Set up proxying
 
 // Body parsing middleware
-app.use(express.json());
 
 // Set up routes (after applying other middlewares)
 app.use("/api", router);

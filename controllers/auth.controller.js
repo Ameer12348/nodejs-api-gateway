@@ -42,10 +42,21 @@ class FirebaseAuthController {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const idToken = userCredential._tokenResponse.idToken;
+        const refreshToken = userCredential._tokenResponse.refreshToken;
         if (idToken) {
           res.cookie("access_token", idToken, {
             httpOnly: true,
+            secure: true,
+            sameSite: "Strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
           });
+          res.cookie("refresh_token", refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "Strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+          });
+
           res
             .status(200)
             .json({ message: "User logged in successfully", userCredential });
