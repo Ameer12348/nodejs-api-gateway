@@ -105,9 +105,9 @@ router.post(
 
 /**
  * @swagger
- * /api/auth/on-auth-state-change:
+ * /api/auth/refresh-token:
  *   post:
- *     summary: Handle authentication state changes
+ *     summary: Refresh user access token
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -116,13 +116,15 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               token:
+ *               refreshToken:
  *                 type: string
  *     responses:
  *       200:
- *         description: Token refreshed successfully
- *       401:
- *         description: Unauthorized
+ *         description: New access token returned successfully
+ *       400:
+ *         description: Missing refresh token
+ *       500:
+ *         description: Failed to refresh token
  */
 router.post("/refresh-token", firebaseAuthController.refreshToken);
 
