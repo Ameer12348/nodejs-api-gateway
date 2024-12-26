@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const {
   getAuth,
   createUserWithEmailAndPassword,
@@ -7,6 +8,7 @@ const {
   sendPasswordResetEmail,
   onAuthStateChanged,
 } = require("../configs/firebase");
+const envVars = require("../configs/envVars");
 
 const auth = getAuth();
 
@@ -86,24 +88,40 @@ class FirebaseAuthController {
   // controllers/authController.js
   async refreshToken(req, res) {
     try {
-      const { refreshToken } = req.body;
+      // Extract refresh token from cookies or request body
+      const { refreshToken } = req.cookies || req.body;
 
+      // Validate refresh token presence
       if (!refreshToken) {
         return res.status(400).json({ error: "Missing refresh token" });
       }
+      // Firebase API Key
+      const apiKey = process.env.FIREBASE_API_KEY || envVars.firebase.apiKey;
+      // Send request to Firebase Secure Token API
+      const { data } = await axios.post(
+        `https://securetoken.googleapis.com/v1/token?key=${apiKey}`,
+        {
+          grant_type: "refresh_token",
+          refresh_token: refreshToken,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      const user = auth.currentUser;
-
-      if (!user) {
-        return res.status(401).json({ error: "No authenticated user found" });
-      }
-
-      // Force-refresh the token
-      const idToken = await user.getIdToken(true);
-      res.status(200).json({ idToken });
+      // Return only the token data
+      return res.json(data);
     } catch (error) {
-      console.error("Error refreshing token:", error);
-      res.status(500).json({ error: "Failed to refresh token" });
+      console.error(
+        "Error refreshing token:",
+        error.response?.data || error.message
+      );
+
+      // Send appropriate error response
+      const status = error.response?.status || 500;
+      return res.status(status).json({ error: "Failed to refresh token" });
     }
   }
 }

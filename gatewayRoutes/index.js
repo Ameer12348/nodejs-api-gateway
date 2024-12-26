@@ -3,7 +3,7 @@ const authGatewayRoutes = require("./authGatewayRoutes");
 const gatewayRoutes = [
   ...authGatewayRoutes,
   {
-    url: "/books",
+    url: "api/books",
     auth: true,
   },
 ];

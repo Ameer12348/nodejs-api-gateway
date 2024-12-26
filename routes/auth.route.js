@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/register:
+ * /api/auth/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Auth]
@@ -28,14 +28,14 @@ const router = express.Router();
  *         description: Invalid input
  */
 router.post(
-  "/api/register",
+  "/register",
   validate(authValidation.register),
   firebaseAuthController.registerUser
 );
 
 /**
  * @swagger
- * /api/login:
+ * /api/auth/login:
  *   post:
  *     summary: Login a user
  *     tags: [Auth]
@@ -57,14 +57,14 @@ router.post(
  *         description: Unauthorized
  */
 router.post(
-  "/api/login",
+  "/login",
   validate(authValidation.login),
   firebaseAuthController.loginUser
 );
 
 /**
  * @swagger
- * /api/logout:
+ * /api/auth/logout:
  *   post:
  *     summary: Logout a user
  *     tags: [Auth]
@@ -74,11 +74,11 @@ router.post(
  *       401:
  *         description: Unauthorized
  */
-router.post("/api/logout", firebaseAuthController.logoutUser);
+router.post("/logout", firebaseAuthController.logoutUser);
 
 /**
  * @swagger
- * /api/reset-password:
+ * /api/auth/reset-password:
  *   post:
  *     summary: Reset user password
  *     tags: [Auth]
@@ -98,14 +98,14 @@ router.post("/api/logout", firebaseAuthController.logoutUser);
  *         description: Invalid input
  */
 router.post(
-  "/api/reset-password",
+  "/reset-password",
   validate(authValidation.resetPassword),
   firebaseAuthController.resetPassword
 );
 
 /**
  * @swagger
- * /api/on-auth-state-change:
+ * /api/auth/on-auth-state-change:
  *   post:
  *     summary: Handle authentication state changes
  *     tags: [Auth]
@@ -124,6 +124,6 @@ router.post(
  *       401:
  *         description: Unauthorized
  */
-router.post("/api/on-auth-state-change", firebaseAuthController.refreshToken);
+router.post("/refresh-token", firebaseAuthController.refreshToken);
 
 module.exports = router;

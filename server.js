@@ -29,7 +29,7 @@ setupProxies(app, gatewayRoutes); // Set up proxying
 app.use(express.json());
 
 // Set up routes (after applying other middlewares)
-app.use(router);
+app.use("/api", router);
 
 // Error handling middleware (last in the chain)
 app.use(errorHandler);
